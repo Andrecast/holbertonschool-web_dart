@@ -1,6 +1,5 @@
 double calculateArea(double height, double base) {
+  double area = height * base / 2;
 
-  double area = (base * height);
-  
-  return double.parse((area).toStringAsFixed(2));
+  return double.parse(area.toStringAsFixed(2));
 }
