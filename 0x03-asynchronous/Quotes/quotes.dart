@@ -1,13 +1,17 @@
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import "package:http/http.dart" as http;
+import 'dart:convert' as convert;
 
-generateQuote(id) async {
+Future<String> generateQuote(id) async {
+  var url = Uri.https("breakingbadapi.com", "/api/quotes/${id}");
   try {
-    final res = await http.get(Uri.parse('https://breakingbadapi.com/api/quotes'),
-    );
-    var json = jsonDecode(res.body);
-    return ("${json[id - 1]['author']} : ${json[id - 1]['quote']}");
-  } catch (err) {
-    return('There are no quotes');
- }
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      var name = jsonResponse[0]['author'];
+      var quote = jsonResponse[0]['quote'];
+      return "${name} : ${quote}";
+    }
+  } catch (error) {
+    return "There are no quotes";
+  }
 }
